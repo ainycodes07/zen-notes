@@ -647,6 +647,33 @@
       color: var(--text-muted);
       opacity: 0.6;
     }
+    /* Fix padding and positioning for lists in the editor */
+#editorBody ul,
+#editorBody ol {
+  padding-left: 2rem; /* Reserves space so numbers/bullets stay inside the editor */
+  margin: 0.5rem 0;
+  list-style-position: outside;
+}
+
+#editorBody li {
+  margin-bottom: 0.25rem;
+}
+
+/* Ensure nested list levels indent properly */
+#editorBody ul ul,
+#editorBody ol ol,
+#editorBody ul ol,
+#editorBody ol ul {
+  padding-left: 1.5rem;
+  margin: 0.25rem 0;
+}
+
+/* Fix for execCommand blockquote indent behavior */
+#editorBody blockquote {
+  margin-left: 2rem;
+  padding-left: 0.5rem;
+  border-left: 2px solid var(--border-color, #ccc);
+}
 
     /* Zen Mode Overrides */
     body.zen-active .sidebar,
