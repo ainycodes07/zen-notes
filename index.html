@@ -1054,6 +1054,36 @@
                 class="fa-solid fa-list-ol"></i></button>
             <button class="tool-btn" onclick="insertCheckbox()" title="Checkbox"><i
                 class="fa-regular fa-square-check"></i></button>
+            <!-- Indent Controls -->
+<button class="tool-btn" onclick="execCmd('indent')" title="Increase Indent"><i class="fa-solid fa-indent"></i></button>
+<button class="tool-btn" onclick="execCmd('outdent')" title="Decrease Indent"><i class="fa-solid fa-outdent"></i></button>
+
+<span style="border-right: 1px solid var(--border-color); margin: 0 0.2rem;"></span>
+
+<!-- Typography Spacing Dropdowns -->
+<select class="icon-select" onchange="applyTypographyStyle('lineHeight', this.value)" title="Line Height">
+  <option value="">Line Height</option>
+  <option value="1.2">1.2 (Compact)</option>
+  <option value="1.5">1.5 (Normal)</option>
+  <option value="1.8">1.8 (Relaxed)</option>
+  <option value="2.2">2.2 (Loose)</option>
+</select>
+
+<select class="icon-select" onchange="applyTypographyStyle('wordSpacing', this.value)" title="Word Spacing">
+  <option value="">Word Spacing</option>
+  <option value="0px">Normal Word</option>
+  <option value="2px">Wide (+2px)</option>
+  <option value="4px">Wider (+4px)</option>
+  <option value="6px">Widest (+6px)</option>
+</select>
+
+<select class="icon-select" onchange="applyTypographyStyle('letterSpacing', this.value)" title="Letter Spacing">
+  <option value="">Letter Spacing</option>
+  <option value="0px">Normal Letter</option>
+  <option value="0.5px">Tight (+0.5px)</option>
+  <option value="1.5px">Medium (+1.5px)</option>
+  <option value="3px">Wide (+3px)</option>
+</select>
           </div>
 
           <input type="text" id="noteTitle" class="editor-title-input" placeholder="Note Title..."
@@ -1603,6 +1633,68 @@
     function toggleZenMode() {
       document.body.classList.toggle('zen-active');
     }
+
+    /* ==================== TYPOGRAPHY & SPACING CONTROLS ==================== */
+function applyTypographyStyle(property, value) {
+  if (!value) return;
+  
+  const editor = document.getElementById('editorBody');
+  const selection = window.getSelection();
+
+  // If text is selected, apply style directly to the selected block/span; 
+  // otherwise, apply globally to the note editor container
+  if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
+    const range = selection.getRangeAt(0);
+    const span = document.createElement('span');
+    span.style[property] = value;
+    range.surroundContents(span);
+  } else {
+    editor.style[property] = value;
+  }
+  
+  handleEditorInput();
+}
+
+/* ==================== TAB KEY & LIST INDENTATION ==================== */
+document.addEventListener('DOMContentLoaded', () => {
+  const editor = document.getElementById('editorBody');
+  if (!editor) return;
+
+  editor.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+      e.preventDefault(); // Stop default focus switching
+
+      const selection = window.getSelection();
+      if (!selection.rangeCount) return;
+
+      // Find if cursor is currently inside a list item (<li>)
+      let currentNode = selection.anchorNode;
+      let listItem = currentNode.nodeType === 3 ? currentNode.parentNode : currentNode;
+      
+      while (listItem && listItem !== editor && listItem.nodeName !== 'LI') {
+        listItem = listItem.parentNode;
+      }
+
+      // If inside bulleted or numbered list, handle nested indentation
+      if (listItem && listItem.nodeName === 'LI') {
+        if (e.shiftKey) {
+          execCmd('outdent');
+        } else {
+          execCmd('indent');
+        }
+      } else {
+        // If regular text area: Shift+Tab outdents, Tab inserts 4 spaces
+        if (e.shiftKey) {
+          execCmd('outdent');
+        } else {
+          document.execCommand('insertText', false, '    ');
+        }
+      }
+      
+      handleEditorInput();
+    }
+  });
+});
 
     /* Tags Management */
     function handleAddTag(e) {
