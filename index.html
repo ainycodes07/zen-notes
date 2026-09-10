@@ -1692,24 +1692,38 @@
     /* ==================== TYPOGRAPHY & SPACING CONTROLS ==================== */
 function applyTypographyStyle(property, value) {
   if (!value) return;
-  
+
   const editor = document.getElementById('editorBody');
   const selection = window.getSelection();
 
-  // If text is selected, apply style directly to the selected block/span; 
-  // otherwise, apply globally to the note editor container
-  if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
-    const range = selection.getRangeAt(0);
+  if (!selection || selection.rangeCount === 0) return;
+
+  // If no text is selected (cursor only), apply style to entire editor
+  if (selection.isCollapsed) {
+    editor.style[property] = value;
+    return;
+  }
+
+  const range = selection.getRangeAt(0);
+
+  try {
+    // Attempt standard single-node wrapping
     const span = document.createElement('span');
     span.style[property] = value;
     range.surroundContents(span);
-  } else {
-    editor.style[property] = value;
+  } catch (e) {
+    // Fallback for selections spanning across multiple HTML tags/nodes
+    const fragment = range.extractContents();
+    const span = document.createElement('span');
+    span.style[property] = value;
+    span.appendChild(fragment);
+    range.insertNode(span);
   }
-  
-  handleEditorInput();
-}
 
+  if (typeof handleEditorInput === 'function') {
+    handleEditorInput();
+  }
+}
 /* ==================== TAB KEY & LIST INDENTATION ==================== */
 document.addEventListener('DOMContentLoaded', () => {
   const editor = document.getElementById('editorBody');
