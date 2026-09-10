@@ -470,6 +470,15 @@
       margin-bottom: 0.5rem;
     }
 
+    .note-card-preview {
+  white-space: pre-line;
+  /* Optional: Limit preview to 2 lines with ellipsis */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+    
     .note-title {
       font-size: 1.1rem;
       font-weight: 600;
@@ -520,6 +529,13 @@
       overflow: hidden;
       margin-bottom: 1rem;
       flex: 1;
+      
+  white-space: pre-line;
+  /* Optional: Limit preview to 2 lines with ellipsis */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
     }
 
     .note-card-footer {
@@ -1461,6 +1477,18 @@
       if (note) {note.pinned = !note.pinned; saveAppState(); renderDashboard();}
     }
 
+    function generateNotePreview(htmlContent) {
+  if (!htmlContent) return '';
+
+  const textWithBreaks = htmlContent
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/(p|div|h[1-6]|li)>/gi, '\n') // Insert line break at block boundaries
+    .replace(/<[^>]+>/g, ' ');                // Remove remaining HTML tags
+
+  // Collapse multiple spaces into one while keeping newlines
+  return textWithBreaks.replace(/[ \t]+/g, ' ').trim();
+}
+    
     /* ==================== RECYCLE BIN FUNCTIONS ==================== */
     function moveToTrash(id) {
       const noteIndex = appState.notes.findIndex(n => n.id === id);
