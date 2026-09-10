@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-theme-color="yellow" data-font="Poppins" data-font-size="medium"
+  data-layout-scale="standard">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZenNote · Focused Note Taking</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=DM+Sans:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif:wght@400;600;700&family=Playfair+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ==================== Global Font Size Scaling ==================== */
+    html[data-font-size="xsmall"] {
+      font-size: 12px;
+    }
+
+    html[data-font-size="small"] {
+      font-size: 14px;
+    }
+
+    html[data-font-size="medium"] {
+      font-size: 16px;
+    }
+
+    html[data-font-size="large"] {
+      font-size: 18px;
+    }
+
+    html[data-font-size="xlarge"] {
+      font-size: 20px;
+    }
+
+    /* ==================== CSS VARIABLES & THEMING ==================== */
+    :root {
+      --font-family-main: 'Poppins', sans-serif;
+      --layout-padding: 2rem;
+      --card-gap: 1.5rem;
+
+      /* Light Theme Defaults */
+      --bg-base: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --bg-element: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: rgba(0, 0, 0, 0.08);
+      --danger-color: #f43f5e;
+      --success-color: #10b981;
+
+      /* Solid Color Themes Defaults */
+      --accent-solid: #fad02c;
+      --accent-glow: rgba(250, 208, 44, 0.35);
+      --accent-text: #0f172a;
+    }
+
+    [data-theme="dark"] {
+      --bg-base: #0b0f17;
+      --bg-surface: #141c2b;
+      --bg-card: #1e293b;
+      --bg-card-hover: #2d3d54;
+      --bg-element: #2a374d;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Accent Colors */
+    [data-theme-color="yellow"] {
+      --accent-solid: #fad02c;
+      --accent-glow: rgba(250, 208, 44, 0.4);
+      --accent-text: #0f172a;
+    }
+
+    [data-theme-color="orange"] {
+      --accent-solid: #fc4c00;
+      --accent-glow: rgba(252, 76, 0, 0.4);
+      --accent-text: #ffffff;
+    }
+
+    [data-theme-color="red"] {
+      --accent-solid: #bd0000;
+      --accent-glow: rgba(189, 0, 0, 0.4);
+      --accent-text: #ffffff;
+    }
+
+    [data-theme-color="pink"] {
+      --accent-solid: #ff3d77;
+      --accent-glow: rgba(255, 61, 119, 0.4);
+      --accent-text: #ffffff;
+    }
+
+    [data-theme-color="purple"] {
+      --accent-solid: #8f1eae;
+      --accent-glow: rgba(143, 30, 174, 0.4);
+      --accent-text: #ffffff;
+    }
+
+    [data-theme-color="blue"] {
+      --accent-solid: #0084bd;
+      --accent-glow: rgba(0, 132, 189, 0.4);
+      --accent-text: #ffffff;
+    }
+
+    [data-theme-color="green"] {
+      --accent-solid: #007d57;
+      --accent-glow: rgba(0, 125, 87, 0.4);
+      --accent-text: #ffffff;
+    }
+
+    /* App Zoom & Layout Scale */
+    [data-layout-scale="compact"] {
+      --layout-padding: 1rem;
+      --card-gap: 0.85rem;
+    }
+
+    [data-layout-scale="standard"] {
+      --layout-padding: 2rem;
+      --card-gap: 1.5rem;
+    }
+
+    [data-layout-scale="large"] {
+      --layout-padding: 2.75rem;
+      --card-gap: 2rem;
+    }
+
+    [data-layout-scale="xlarge"] {
+      --layout-padding: 3.5rem;
+      --card-gap: 2.5rem;
+    }
+
+    /* Font Families */
+    [data-font="Poppins"] {
+      --font-family-main: 'Poppins', sans-serif;
+    }
+
+    [data-font="DM Sans"] {
+      --font-family-main: 'DM Sans', sans-serif;
+    }
+
+    [data-font="Plus Jakarta Sans"] {
+      --font-family-main: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    [data-font="JetBrains Mono"] {
+      --font-family-main: 'JetBrains Mono', monospace;
+    }
+
+    [data-font="Playfair Display"] {
+      --font-family-main: 'Playfair Display', serif;
+    }
+
+    [data-font="Instrument Serif"] {
+      --font-family-main: 'Instrument Serif', serif;
+    }
+
+    [data-font="Comic Neue"] {
+      --font-family-main: 'Comic Neue', cursive;
+    }
+
+    [data-font="Noto Serif"] {
+      --font-family-main: 'Noto Serif', serif;
+    }
+
+    [data-font="System UI"] {
+      --font-family-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family-main);
+      font-size: 1rem;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    #app-container {
+      display: flex;
+      width: 100vw;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Overlay for Mobile Sidebar */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(2px);
+      z-index: 99;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Sidebar Styling */
+    .sidebar {
+      width: 260px;
+      background-color: var(--bg-surface);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem 1rem;
+      transition: transform 0.3s ease;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--accent-solid);
+      color: var(--accent-text);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .sidebar-close-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      cursor: pointer;
+      padding: 0.2rem;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex: 1;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .nav-btn:hover {
+      background-color: var(--bg-element);
+      color: var(--text-main);
+    }
+
+    .nav-btn.active {
+      background-color: var(--accent-solid);
+      color: var(--accent-text);
+      font-weight: 600;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    .nav-btn i {
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    /* Main Workspace */
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      max-height: 100vh;
+    }
+
+    .top-header {
+      padding: 1rem var(--layout-padding);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    /* Motivational Banner */
+    .motivation-banner {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.75rem var(--layout-padding);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .motivation-banner i {
+      color: var(--accent-solid);
+      font-size: 1rem;
+    }
+
+    .content-body {
+      padding: var(--layout-padding);
+      flex: 1;
+    }
+
+    .tab-view {
+      display: none;
+    }
+
+    .tab-view.active {
+      display: block;
+    }
+
+    /* Dashboard UI Elements */
+    .dashboard-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0.6rem 1rem;
+      width: 100%;
+      max-width: 320px;
+      gap: 0.5rem;
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-main);
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .pill-btn {
+      padding: 0.45rem 0.9rem;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .pill-btn.active,
+    .pill-btn:hover {
+      background: var(--accent-solid);
+      color: var(--accent-text);
+      border-color: var(--accent-solid);
+    }
+
+    .sort-select,
+    .icon-select {
+      padding: 0.5rem 0.9rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.88rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--card-gap);
+    }
+
+    .note-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 220px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .note-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      border-color: var(--accent-solid);
+    }
+
+    .note-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+
+    .note-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 75%;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: 6px;
+      transition: color 0.15s, background-color 0.15s;
+    }
+
+    .icon-btn:hover {
+      color: var(--text-main);
+      background-color: var(--bg-element);
+    }
+
+    .icon-btn.active-star {
+      color: #f59e0b;
+    }
+
+    .icon-btn.active-pin {
+      color: var(--accent-solid);
+    }
+
+    .note-snippet {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .note-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
+      padding-top: 0.75rem;
+    }
+
+    .tag-pills {
+      display: flex;
+      gap: 0.3rem;
+      overflow-x: hidden;
+      max-width: 60%;
+    }
+
+    .tag-badge {
+      background: var(--bg-element);
+      padding: 0.15rem 0.5rem;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      white-space: nowrap;
+    }
+
+    /* Editor UI */
+    .editor-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .editor-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      padding: 0.6rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .tool-btn {
+      background: none;
+      border: none;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      color: var(--text-main);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+
+    .tool-btn:hover {
+      background: var(--bg-element);
+    }
+
+    .editor-title-input {
+      width: 100%;
+      font-size: 1.75rem;
+      font-weight: 700;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-main);
+      margin-bottom: 0.75rem;
+      font-family: inherit;
+    }
+
+    .tag-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .tag-input-field {
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      outline: none;
+      font-size: 0.85rem;
+      font-family: inherit;
+    }
+
+    .editable-area {
+      min-height: 380px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      outline: none;
+      color: var(--text-main);
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .editable-area:empty:before {
+      content: attr(placeholder);
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    /* Zen Mode Overrides */
+    body.zen-active .sidebar,
+    body.zen-active .top-header,
+    body.zen-active .motivation-banner,
+    body.zen-active .editor-toolbar,
+    body.zen-active .editor-topbar button:not(#zenToggleBtn) {
+      display: none !important;
+    }
+
+    body.zen-active .content-body {
+      padding: 3rem 10% !important;
+    }
+
+    body.zen-active #zenToggleBtn {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 1000;
+      background: var(--accent-solid);
+      color: var(--accent-text);
+    }
+
+    /* Icon-Heavy Settings Grid */
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--card-gap);
+      max-width: 900px;
+    }
+
+    .setting-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .setting-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .setting-header i {
+      color: var(--accent-solid);
+      font-size: 1.1rem;
+    }
+
+    .option-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .icon-opt-btn {
+      flex: 1;
+      min-width: 60px;
+      padding: 0.6rem;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      background: var(--bg-base);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.75rem;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .icon-opt-btn i {
+      font-size: 1.1rem;
+    }
+
+    .icon-opt-btn.active,
+    .icon-opt-btn:hover {
+      background: var(--accent-solid);
+      color: var(--accent-text);
+      border-color: var(--accent-solid);
+    }
+
+    .color-swatch-group {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .swatch {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s;
+    }
+
+    .swatch:hover {
+      transform: scale(1.15);
+    }
+
+    .swatch.active {
+      border-color: var(--text-main);
+    }
+
+    /* Profile Tab Styling */
+    .profile-container {
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .profile-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .profile-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--accent-solid);
+      color: var(--accent-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .profile-info {
+      flex: 1;
+    }
+
+    .profile-name-input {
+      font-size: 1.25rem;
+      font-weight: 700;
+      border: 1px dashed var(--border-color);
+      background: transparent;
+      color: var(--text-main);
+      padding: 0.3rem 0.6rem;
+      border-radius: 8px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .profile-name-input:focus {
+      border-color: var(--accent-solid);
+    }
+
+    .shortcuts-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .shortcut-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-base);
+      padding: 0.6rem 0.8rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+    }
+
+    kbd {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 0.75rem;
+      box-shadow: 0 2px 0 var(--border-color);
+    }
+
+    .app-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .app-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: #3b82f6;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .btn-action {
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent-solid);
+      color: var(--accent-text);
+      font-weight: 600;
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: opacity 0.2s;
+    }
+
+    .btn-action:hover {
+      opacity: 0.9;
+    }
+
+    .btn-danger {
+      background: var(--danger-color);
+      color: #fff;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-close-btn {
+        display: block;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .notes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="app-container">
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-icon"><i class="fa-solid fa-note-sticky"></i></div>
+          <span>ZenNote</span>
+        </div>
+        <button class="sidebar-close-btn" onclick="closeSidebar()" title="Close Menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <ul class="nav-list">
+        <li>
+          <button class="nav-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">
+            <i class="fa-solid fa-border-all"></i> Dashboard
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" data-tab="editor" onclick="openNewNote()">
+            <i class="fa-solid fa-pen-to-square"></i> Write Note
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" data-tab="trash" onclick="switchTab('trash')">
+            <i class="fa-solid fa-trash-can"></i> Recycle Bin
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" data-tab="profile" onclick="switchTab('profile')">
+            <i class="fa-solid fa-user"></i> Profile
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" data-tab="settings" onclick="switchTab('settings')">
+            <i class="fa-solid fa-gear"></i> Settings
+          </button>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <main class="main-wrapper">
+      <header class="top-header">
+        <button class="mobile-menu-toggle" onclick="openSidebar()" title="Open Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div style="font-weight: 600; font-size: 1.1rem;" id="headerTitle">Dashboard</div>
+        <button class="btn-action" onclick="openNewNote()">
+          <i class="fa-solid fa-plus"></i> New Note
+        </button>
+      </header>
+
+      <!-- Motivational Message Banner -->
+      <div class="motivation-banner">
+        <i class="fa-solid fa-quote-left"></i>
+        <span id="motivationalQuote">Loading motivation...</span>
+      </div>
+
+      <div class="content-body">
+
+        <!-- DASHBOARD TAB -->
+        <section id="tab-dashboard" class="tab-view active">
+          <div class="dashboard-toolbar">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
+              <input type="text" id="searchInput" placeholder="Search notes or tags..." oninput="renderDashboard()">
+            </div>
+
+            <div class="filter-group">
+              <button class="pill-btn active" data-filter="all" onclick="setFilter('all', this)">All</button>
+              <button class="pill-btn" data-filter="starred" onclick="setFilter('starred', this)"><i
+                  class="fa-solid fa-star"></i> Starred</button>
+              <button class="pill-btn" data-filter="pinned" onclick="setFilter('pinned', this)"><i
+                  class="fa-solid fa-thumbtack"></i> Pinned</button>
+            </div>
+
+            <select class="sort-select" id="sortSelect" onchange="renderDashboard()">
+              <option value="updated-desc">Sort by: Recently Updated</option>
+              <option value="created-desc">Sort by: Date Created</option>
+              <option value="title-asc">Sort by: Title (A-Z)</option>
+            </select>
+          </div>
+
+          <div id="notesGrid" class="notes-grid"></div>
+        </section>
+
+        <!-- RECYCLE BIN TAB -->
+        <section id="tab-trash" class="tab-view">
+          <div class="dashboard-toolbar">
+            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem;">
+              <i class="fa-solid fa-circle-info"></i> Notes in Recycle Bin can be restored or deleted permanently.
+            </div>
+            <button class="btn-action btn-danger" onclick="emptyTrash()">
+              <i class="fa-solid fa-dumpster"></i> Empty Bin
+            </button>
+          </div>
+
+          <div id="trashGrid" class="notes-grid"></div>
+        </section>
+
+        <!-- EDITOR TAB -->
+        <section id="tab-editor" class="tab-view">
+          <div class="editor-topbar">
+            <button class="btn-action" style="background: var(--bg-element); color: var(--text-main);"
+              onclick="switchTab('dashboard')">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn-action" id="zenToggleBtn" onclick="toggleZenMode()" title="Zen Mode">
+                <i class="fa-solid fa-expand"></i>
+              </button>
+              <button class="btn-action" id="viewModeBtn" onclick="toggleEditViewMode()" title="Toggle Edit/View">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+              <button class="btn-action" onclick="saveCurrentNote(true)" title="Save Note">
+                <i class="fa-solid fa-floppy-disk"></i>
+              </button>
+              <button class="btn-action btn-danger" onclick="deleteCurrentNote()" title="Move to Recycle Bin">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="editor-toolbar" id="editorToolbar">
+            <button class="tool-btn" onclick="execCmd('bold')" title="Bold"><i class="fa-solid fa-bold"></i></button>
+            <button class="tool-btn" onclick="execCmd('italic')" title="Italic"><i
+                class="fa-solid fa-italic"></i></button>
+            <button class="tool-btn" onclick="execCmd('underline')" title="Underline"><i
+                class="fa-solid fa-underline"></i></button>
+            <span style="border-right: 1px solid var(--border-color); margin: 0 0.2rem;"></span>
+            <button class="tool-btn" onclick="execCmd('formatBlock', '<h1>')" title="H1">H1</button>
+            <button class="tool-btn" onclick="execCmd('formatBlock', '<h2>')" title="H2">H2</button>
+            <button class="tool-btn" onclick="execCmd('formatBlock', '<h3>')" title="H3">H3</button>
+            <button class="tool-btn" onclick="execCmd('formatBlock', '<p>')" title="Paragraph"><i
+                class="fa-solid fa-paragraph"></i></button>
+            <span style="border-right: 1px solid var(--border-color); margin: 0 0.2rem;"></span>
+            <button class="tool-btn" onclick="execCmd('justifyLeft')" title="Left"><i
+                class="fa-solid fa-align-left"></i></button>
+            <button class="tool-btn" onclick="execCmd('justifyCenter')" title="Center"><i
+                class="fa-solid fa-align-center"></i></button>
+            <button class="tool-btn" onclick="execCmd('justifyRight')" title="Right"><i
+                class="fa-solid fa-align-right"></i></button>
+            <span style="border-right: 1px solid var(--border-color); margin: 0 0.2rem;"></span>
+            <button class="tool-btn" onclick="execCmd('insertUnorderedList')" title="Bullet List"><i
+                class="fa-solid fa-list-ul"></i></button>
+            <button class="tool-btn" onclick="execCmd('insertOrderedList')" title="Numbered List"><i
+                class="fa-solid fa-list-ol"></i></button>
+            <button class="tool-btn" onclick="insertCheckbox()" title="Checkbox"><i
+                class="fa-regular fa-square-check"></i></button>
+          </div>
+
+          <input type="text" id="noteTitle" class="editor-title-input" placeholder="Note Title..."
+            oninput="handleEditorInput()">
+
+          <div class="tag-input-wrapper">
+            <i class="fa-solid fa-tags" style="color: var(--text-muted);"></i>
+            <div id="activeTagsContainer" style="display: flex; gap: 0.3rem;"></div>
+            <input type="text" id="tagInput" class="tag-input-field" placeholder="Add tag..."
+              onkeydown="handleAddTag(event)">
+          </div>
+
+          <div id="editorBody" class="editable-area" contenteditable="true" placeholder="Start typing..."
+            oninput="handleEditorInput()"></div>
+        </section>
+
+        <!-- PROFILE TAB -->
+        <section id="tab-profile" class="tab-view">
+          <div class="profile-container">
+            <div class="profile-card">
+              <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
+              <div class="profile-info">
+                <input type="text" id="userNameInput" class="profile-name-input" value="Zen Writer"
+                  onchange="updateProfileName(this.value)" placeholder="Your Name">
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.3rem;">
+                  <i class="fa-solid fa-pen"></i> Click name above to edit profile
+                </p>
+              </div>
+            </div>
+
+            <!-- Shortcuts Section -->
+            <div class="setting-card">
+              <div class="setting-header">
+                <i class="fa-solid fa-keyboard"></i>
+                <span>Keyboard Shortcuts</span>
+              </div>
+              <div class="shortcuts-list">
+                <div class="shortcut-item"><span>Save Note</span><kbd>Ctrl + S</kbd></div>
+                <div class="shortcut-item"><span>New Note</span><kbd>Alt + N</kbd></div>
+                <div class="shortcut-item"><span>Toggle Zen Mode</span><kbd>Alt + Z</kbd></div>
+                <div class="shortcut-item"><span>Bold Text</span><kbd>Ctrl + B</kbd></div>
+                <div class="shortcut-item"><span>Italic Text</span><kbd>Ctrl + I</kbd></div>
+              </div>
+            </div>
+
+            <!-- Other Apps Section -->
+            <div class="setting-card">
+              <div class="setting-header">
+                <i class="fa-solid fa-grip"></i>
+                <span>Other Apps</span>
+              </div>
+              <div class="app-card">
+                <div class="app-icon"><i class="fa-solid fa-hourglass-start"></i></div>
+                <div style="flex: 1;">
+                  <h4 style="font-size: 1rem; margin-bottom: 0.2rem;">Queue Timer App</h4>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Sequential productivity timer to manage
+                    multi-stage focus workflows easily.</p>
+                </div>
+                <a href="https://ainycodes07.github.io/queue-timer/" target="_blank" class="btn-action"
+                  style="text-decoration: none;">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> Open
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SETTINGS TAB -->
+        <section id="tab-settings" class="tab-view">
+          <div class="settings-grid">
+            <!-- Appearance Mode -->
+            <div class="setting-card">
+              <div class="setting-header">
+                <i class="fa-solid fa-circle-half-stroke"></i>
+                <span>Appearance Mode</span>
+              </div>
+              <div class="option-group">
+                <button class="icon-opt-btn" id="theme-light-btn" onclick="setTheme('light')">
+                  <i class="fa-solid fa-sun"></i> Light
+                </button>
+                <button class="icon-opt-btn" id="theme-dark-btn" onclick="setTheme('dark')">
+                  <i class="fa-solid fa-moon"></i> Dark
+                </button>
+              </div>
+            </div>
+
+            <!-- Accent Color -->
+            <div class="setting-card">
+              <div class="setting-header">
+                <i class="fa-solid fa-palette"></i>
+                <span>Accent Color</span>
+              </div>
+              <div class="color-swatch-group">
+                <div class="swatch" style="background:#fad02c;" onclick="setAccentColor('yellow')" title="Yellow"></div>
+                <div class="swatch" style="background:#fc4c00;" onclick="setAccentColor('orange')" title="Orange"></div>
+                <div class="swatch" style="background:#bd0000;" onclick="setAccentColor('red')" title="Red"></div>
+                <div class="swatch" style="background:#ff3d77;" onclick="setAccentColor('pink')" title="Pink"></div>
+                <div class="swatch" style="background:#8f1eae;" onclick="setAccentColor('purple')" title="Purple"></div>
+                <div class="swatch" style="background:#0084bd;" onclick="setAccentColor('blue')" title="Blue"></div>
+                <div class="swatch" style="background:#007d57;" onclick="setAccentColor('green')" title="Green"></div>
+              </div>
+            </div>
+
+            <!-- Font Family -->
+            <div class="setting-card">
+              <div class="setting-header">
+                <i class="fa-solid fa-font"></i>
+                <span>Font Family</span>
+              </div>
+              <select class="icon-select" id="fontFamilySelect" onchange="changeFontFamily(this.value)">
+                <option value="Poppins">Poppins</option>
+                <option value="DM Sans">DM Sans</option>
+                <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+                <option value="JetBrains Mono">JetBrains Mono</option>
+                <option value="Playfair Display">Playfair Display</option>
+                <option value="Instrument Serif">Instrument Serif</option>
+                <option value="Comic Neue">Comic Neue</option>
+                <option value="Noto Serif">Noto Serif</option>
+                <option value="System UI">System UI</option>
+              </select>
+            </div>
+
+            <!-- Font Size -->
+            <div class="setting-card">
+              <div class="setting-header">
+                <i class="fa-solid fa-text-height"></i>
+                <span>Font Size</span>
+              </div>
+              <div class="option-group">
+                <button class="icon-opt-btn" id="fs-xsmall" onclick="changeFontSize('xsmall')"><i
+                    class="fa-solid fa-font" style="font-size:0.7rem;"></i> XS</button>
+                <button class="icon-opt-btn" id="fs-small" onclick="changeFontSize('small')"><i class="fa-solid fa-font"
+                    style="font-size:0.85rem;"></i> S</button>
+                <button class="icon-opt-btn" id="fs-medium" onclick="changeFontSize('medium')"><i
+                    class="fa-solid fa-font" style="font-size:1rem;"></i> M</button>
+                <button class="icon-opt-btn" id="fs-large" onclick="changeFontSize('large')"><i class="fa-solid fa-font"
+                    style="font-size:1.15rem;"></i> L</button>
+                <button class="icon-opt-btn" id="fs-xlarge" onclick="changeFontSize('xlarge')"><i
+                    class="fa-solid fa-font" style="font-size:1.3rem;"></i> XL</button>
+              </div>
+            </div>
+
+            <!-- App Zoom & Layout Scale -->
+            <div class="setting-card">
+              <div class="setting-header">
+                <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                <span>App Zoom & Layout Scale</span>
+              </div>
+              <div class="option-group">
+                <button class="icon-opt-btn" id="ls-compact" onclick="changeLayoutScale('compact')"><i
+                    class="fa-solid fa-compress"></i> Compact</button>
+                <button class="icon-opt-btn" id="ls-standard" onclick="changeLayoutScale('standard')"><i
+                    class="fa-solid fa-border-all"></i> Standard</button>
+                <button class="icon-opt-btn" id="ls-large" onclick="changeLayoutScale('large')"><i
+                    class="fa-solid fa-expand"></i> Large</button>
+                <button class="icon-opt-btn" id="ls-xlarge" onclick="changeLayoutScale('xlarge')"><i
+                    class="fa-solid fa-maximize"></i> XL</button>
+              </div>
+            </div>
+
+            <!-- Reset Application Data -->
+            <div class="setting-card">
+              <div class="setting-header">
+                <i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i>
+                <span>Reset Application Data</span>
+              </div>
+              <button class="btn-action btn-danger" onclick="resetAllProgress()">
+                <i class="fa-solid fa-trash-arrow-up"></i> Reset Data
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    /* ==================== STATE MANAGEMENT ==================== */
+    const MOTIVATIONAL_QUOTES = [
+      "“The secret of getting ahead is getting started.” – Mark Twain",
+      "“Small daily improvements over time lead to stunning results.” – Robin Sharma",
+      "“Your mind is for having ideas, not holding them.” – David Allen",
+      "“Focus on being productive instead of busy.” – Tim Ferriss",
+      "“Action is the foundational key to all success.” – Pablo Picasso",
+      "“Done is better than perfect.” – Sheryl Sandberg"
+    ];
+
+    let appState = {
+      notes: [],
+      trash: [],
+      currentNoteId: null,
+      filter: 'all',
+      theme: 'light',
+      colorTheme: 'yellow',
+      font: 'Poppins',
+      fontSize: 'medium',
+      layoutScale: 'standard',
+      userName: 'Zen Writer',
+      isEditing: true
+    };
+
+    const defaultNotes = [
+      {
+        id: 'note-1',
+        title: 'Welcome to ZenNote 📝',
+        content: '<p>ZenNote is built for focused note taking.</p><ul><li>Organize with <b>Stars</b> & <b>Pins</b>.</li><li>Switch seamlessly to <b>Zen Mode</b>.</li><li>Customize layouts & fonts in <b>Settings</b>.</li></ul>',
+        tags: ['welcome', 'guide'],
+        starred: true,
+        pinned: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }
+    ];
+
+    /* Temporary holder for tags in unsaved draft */
+    let draftTags = [];
+
+    /* ==================== INITIALIZATION ==================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      loadAppState();
+      updateMotivationalQuote();
+      renderDashboard();
+      renderTrash();
+      setupKeyShortcuts();
+    });
+
+    function saveAppState() {
+      localStorage.setItem('zennote_data_v2', JSON.stringify(appState));
+    }
+
+    function loadAppState() {
+      const data = localStorage.getItem('zennote_data_v2');
+      if (data) {
+        try {
+          appState = {...appState, ...JSON.parse(data)};
+          if (!Array.isArray(appState.trash)) appState.trash = [];
+        } catch (e) {
+          appState.notes = defaultNotes;
+          appState.trash = [];
+        }
+      } else {
+        appState.notes = defaultNotes;
+        appState.trash = [];
+      }
+
+      // Apply Saved Settings to Root Element
+      document.documentElement.setAttribute('data-theme', appState.theme);
+      document.documentElement.setAttribute('data-theme-color', appState.colorTheme);
+      document.documentElement.setAttribute('data-font', appState.font);
+      document.documentElement.setAttribute('data-font-size', appState.fontSize);
+      document.documentElement.setAttribute('data-layout-scale', appState.layoutScale);
+
+      document.getElementById('fontFamilySelect').value = appState.font;
+      document.getElementById('userNameInput').value = appState.userName || 'Zen Writer';
+      updateSettingsUIControls();
+    }
+
+    /* ==================== NAVIGATION & MOBILE SIDEBAR ==================== */
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+
+      const activeNavBtn = document.querySelector(`.nav-btn[data-tab="${tabName}"]`);
+      if (activeNavBtn) activeNavBtn.classList.add('active');
+
+      const formattedTitle = tabName === 'trash' ? 'Recycle Bin' : tabName.charAt(0).toUpperCase() + tabName.slice(1);
+      document.getElementById('headerTitle').innerText = formattedTitle;
+
+      closeSidebar();
+      updateMotivationalQuote();
+      if (tabName === 'dashboard') renderDashboard();
+      if (tabName === 'trash') renderTrash();
+    }
+
+    function openSidebar() {
+      document.getElementById('sidebar').classList.add('open');
+      document.getElementById('sidebarOverlay').classList.add('active');
+    }
+
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarOverlay').classList.remove('active');
+    }
+
+    function updateMotivationalQuote() {
+      const randomQuote = MOTIVATIONAL_QUOTES[Math.floor(Math.random() * MOTIVATIONAL_QUOTES.length)];
+      document.getElementById('motivationalQuote').innerText = randomQuote;
+    }
+
+    /* ==================== DASHBOARD & NOTES ==================== */
+    function setFilter(filterType, btnEl) {
+      appState.filter = filterType;
+      document.querySelectorAll('.filter-group .pill-btn').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+      renderDashboard();
+    }
+
+    function renderDashboard() {
+      const grid = document.getElementById('notesGrid');
+      const searchVal = document.getElementById('searchInput').value.toLowerCase();
+      const sortVal = document.getElementById('sortSelect').value;
+
+      let filtered = appState.notes.filter(note => {
+        const matchesSearch = note.title.toLowerCase().includes(searchVal) ||
+          note.content.toLowerCase().includes(searchVal) ||
+          note.tags.some(t => t.toLowerCase().includes(searchVal));
+        if (!matchesSearch) return false;
+
+        if (appState.filter === 'starred') return note.starred;
+        if (appState.filter === 'pinned') return note.pinned;
+        return true;
+      });
+
+      filtered.sort((a, b) => {
+        if (a.pinned !== b.pinned) return b.pinned ? 1 : -1;
+        if (sortVal === 'updated-desc') return new Date(b.updatedAt) - new Date(a.updatedAt);
+        if (sortVal === 'created-desc') return new Date(b.createdAt) - new Date(a.createdAt);
+        if (sortVal === 'title-asc') return a.title.localeCompare(b.title);
+        return 0;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem;">
+        <i class="fa-solid fa-folder-open" style="font-size: 2.5rem; margin-bottom: 0.5rem;"></i>
+        <p>No notes found.</p>
+      </div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(note => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = note.content;
+        const snippet = tempDiv.innerText || tempDiv.textContent || 'Empty note...';
+
+        return `
+        <div class="note-card" onclick="editNote('${note.id}')">
+          <div>
+            <div class="note-card-header">
+              <h4 class="note-title">${escapeHtml(note.title || 'Untitled Note')}</h4>
+              <div class="card-actions" onclick="event.stopPropagation()">
+                <button class="icon-btn ${note.pinned ? 'active-pin' : ''}" onclick="togglePinNote('${note.id}')" title="Pin">
+                  <i class="fa-solid fa-thumbtack"></i>
+                </button>
+                <button class="icon-btn ${note.starred ? 'active-star' : ''}" onclick="toggleStarNote('${note.id}')" title="Star">
+                  <i class="fa-solid fa-star"></i>
+                </button>
+                <button class="icon-btn" onclick="moveToTrash('${note.id}')" title="Move to Recycle Bin">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+            <div class="note-snippet">${escapeHtml(snippet)}</div>
+          </div>
+          <div class="note-card-footer">
+            <div class="tag-pills">
+              ${note.tags.map(t => `<span class="tag-badge">#${escapeHtml(t)}</span>`).join('')}
+            </div>
+            <span>${new Date(note.updatedAt).toLocaleDateString()}</span>
+          </div>
+        </div>
+      `;
+      }).join('');
+    }
+
+    function toggleStarNote(id) {
+      const note = appState.notes.find(n => n.id === id);
+      if (note) {note.starred = !note.starred; saveAppState(); renderDashboard();}
+    }
+
+    function togglePinNote(id) {
+      const note = appState.notes.find(n => n.id === id);
+      if (note) {note.pinned = !note.pinned; saveAppState(); renderDashboard();}
+    }
+
+    /* ==================== RECYCLE BIN FUNCTIONS ==================== */
+    function moveToTrash(id) {
+      const noteIndex = appState.notes.findIndex(n => n.id === id);
+      if (noteIndex !== -1) {
+        const [removedNote] = appState.notes.splice(noteIndex, 1);
+        removedNote.deletedAt = new Date().toISOString();
+        appState.trash.unshift(removedNote);
+        saveAppState();
+        renderDashboard();
+        renderTrash();
+      }
+    }
+
+    function renderTrash() {
+      const grid = document.getElementById('trashGrid');
+      if (!grid) return;
+
+      if (appState.trash.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem;">
+        <i class="fa-solid fa-trash-arrow-up" style="font-size: 2.5rem; margin-bottom: 0.5rem;"></i>
+        <p>Recycle Bin is empty.</p>
+      </div>`;
+        return;
+      }
+
+      grid.innerHTML = appState.trash.map(note => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = note.content;
+        const snippet = tempDiv.innerText || tempDiv.textContent || 'Empty note...';
+
+        return `
+        <div class="note-card" style="opacity: 0.9;">
+          <div>
+            <div class="note-card-header">
+              <h4 class="note-title">${escapeHtml(note.title || 'Untitled Note')}</h4>
+              <div class="card-actions">
+                <button class="icon-btn" onclick="restoreNote('${note.id}')" title="Restore Note">
+                  <i class="fa-solid fa-rotate-left"></i>
+                </button>
+                <button class="icon-btn" style="color: var(--danger-color);" onclick="permanentlyDeleteNote('${note.id}')" title="Delete Permanently">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+            </div>
+            <div class="note-snippet">${escapeHtml(snippet)}</div>
+          </div>
+          <div class="note-card-footer">
+            <div class="tag-pills">
+              ${note.tags.map(t => `<span class="tag-badge">#${escapeHtml(t)}</span>`).join('')}
+            </div>
+            <span>Deleted ${new Date(note.deletedAt || note.updatedAt).toLocaleDateString()}</span>
+          </div>
+        </div>
+      `;
+      }).join('');
+    }
+
+    function restoreNote(id) {
+      const trashIndex = appState.trash.findIndex(n => n.id === id);
+      if (trashIndex !== -1) {
+        const [restoredNote] = appState.trash.splice(trashIndex, 1);
+        delete restoredNote.deletedAt;
+        appState.notes.unshift(restoredNote);
+        saveAppState();
+        renderTrash();
+        renderDashboard();
+      }
+    }
+
+    function permanentlyDeleteNote(id) {
+      if (confirm('Permanently delete this note? This action cannot be undone.')) {
+        appState.trash = appState.trash.filter(n => n.id !== id);
+        saveAppState();
+        renderTrash();
+      }
+    }
+
+    function emptyTrash() {
+      if (appState.trash.length === 0) return;
+      if (confirm('Are you sure you want to permanently delete all items in the Recycle Bin?')) {
+        appState.trash = [];
+        saveAppState();
+        renderTrash();
+      }
+    }
+
+    /* ==================== EDITOR LOGIC ==================== */
+    function openNewNote() {
+      appState.currentNoteId = null;
+      draftTags = [];
+
+      document.getElementById('noteTitle').value = '';
+      document.getElementById('editorBody').innerHTML = '';
+      renderTags(draftTags);
+      switchTab('editor');
+    }
+
+    function editNote(id) {
+      const note = appState.notes.find(n => n.id === id);
+      if (!note) return;
+      appState.currentNoteId = note.id;
+      draftTags = [...note.tags];
+      loadNoteIntoEditor(note);
+      switchTab('editor');
+    }
+
+    function loadNoteIntoEditor(note) {
+      document.getElementById('noteTitle').value = note.title;
+      document.getElementById('editorBody').innerHTML = note.content;
+      renderTags(note.tags);
+    }
+
+    function handleEditorInput() {
+      const titleVal = document.getElementById('noteTitle').value.trim();
+      const bodyVal = document.getElementById('editorBody').innerText.trim();
+
+      if (!titleVal && !bodyVal) return;
+
+      if (!appState.currentNoteId) {
+        const newNote = {
+          id: 'note-' + Date.now(),
+          title: document.getElementById('noteTitle').value,
+          content: document.getElementById('editorBody').innerHTML,
+          tags: [...draftTags],
+          starred: false,
+          pinned: false,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+        appState.currentNoteId = newNote.id;
+        appState.notes.unshift(newNote);
+      } else {
+        const note = appState.notes.find(n => n.id === appState.currentNoteId);
+        if (note) {
+          note.title = document.getElementById('noteTitle').value;
+          note.content = document.getElementById('editorBody').innerHTML;
+          note.updatedAt = new Date().toISOString();
+        }
+      }
+      saveAppState();
+    }
+
+    function saveCurrentNote(userAlert = false) {
+      handleEditorInput();
+      if (userAlert) alert('Note saved!');
+    }
+
+    function deleteCurrentNote() {
+      if (!appState.currentNoteId) {
+        openNewNote();
+        switchTab('dashboard');
+        return;
+      }
+      if (confirm('Move this note to the Recycle Bin?')) {
+        moveToTrash(appState.currentNoteId);
+        appState.currentNoteId = null;
+        switchTab('dashboard');
+      }
+    }
+
+    function toggleEditViewMode() {
+      appState.isEditing = !appState.isEditing;
+      const editorBody = document.getElementById('editorBody');
+      const btn = document.getElementById('viewModeBtn');
+
+      editorBody.contentEditable = appState.isEditing;
+      btn.innerHTML = appState.isEditing ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-pen"></i>';
+    }
+
+    function toggleZenMode() {
+      document.body.classList.toggle('zen-active');
+    }
+
+    /* Tags Management */
+    function handleAddTag(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const input = document.getElementById('tagInput');
+        const tagVal = input.value.trim().toLowerCase();
+        if (!tagVal) return;
+
+        if (appState.currentNoteId) {
+          const note = appState.notes.find(n => n.id === appState.currentNoteId);
+          if (note && !note.tags.includes(tagVal)) {
+            note.tags.push(tagVal);
+            renderTags(note.tags);
+            saveAppState();
+          }
+        } else {
+          if (!draftTags.includes(tagVal)) {
+            draftTags.push(tagVal);
+            renderTags(draftTags);
+          }
+        }
+        input.value = '';
+      }
+    }
+
+    function removeTag(tag) {
+      if (appState.currentNoteId) {
+        const note = appState.notes.find(n => n.id === appState.currentNoteId);
+        if (note) {
+          note.tags = note.tags.filter(t => t !== tag);
+          renderTags(note.tags);
+          saveAppState();
+        }
+      } else {
+        draftTags = draftTags.filter(t => t !== tag);
+        renderTags(draftTags);
+      }
+    }
+
+    function renderTags(tags) {
+      const container = document.getElementById('activeTagsContainer');
+      container.innerHTML = tags.map(t => `
+      <span class="tag-badge" style="cursor:pointer;" onclick="removeTag('${t}')">
+        #${escapeHtml(t)} <i class="fa-solid fa-xmark"></i>
+      </span>
+    `).join('');
+    }
+
+    function execCmd(command, value = null) {
+      document.execCommand(command, false, value);
+      handleEditorInput();
+    }
+
+    function insertCheckbox() {
+      document.execCommand('insertHTML', false, '<input type="checkbox"> ');
+      handleEditorInput();
+    }
+
+    /* ==================== PROFILE ==================== */
+    function updateProfileName(name) {
+      appState.userName = name || 'Zen Writer';
+      saveAppState();
+    }
+
+    /* ==================== SETTINGS CONTROLS ==================== */
+    function setTheme(theme) {
+      appState.theme = theme;
+      document.documentElement.setAttribute('data-theme', theme);
+      updateSettingsUIControls();
+      saveAppState();
+    }
+
+    function setAccentColor(colorName) {
+      appState.colorTheme = colorName;
+      document.documentElement.setAttribute('data-theme-color', colorName);
+      updateSettingsUIControls();
+      saveAppState();
+    }
+
+    function changeFontFamily(font) {
+      appState.font = font;
+      document.documentElement.setAttribute('data-font', font);
+      saveAppState();
+    }
+
+    function changeFontSize(size) {
+      appState.fontSize = size;
+      document.documentElement.setAttribute('data-font-size', size);
+      updateSettingsUIControls();
+      saveAppState();
+    }
+
+    function changeLayoutScale(scale) {
+      appState.layoutScale = scale;
+      document.documentElement.setAttribute('data-layout-scale', scale);
+      updateSettingsUIControls();
+      saveAppState();
+    }
+
+    function updateSettingsUIControls() {
+      document.getElementById('theme-light-btn')?.classList.toggle('active', appState.theme === 'light');
+      document.getElementById('theme-dark-btn')?.classList.toggle('active', appState.theme === 'dark');
+
+      ['xsmall', 'small', 'medium', 'large', 'xlarge'].forEach(sz => {
+        document.getElementById(`fs-${sz}`)?.classList.toggle('active', appState.fontSize === sz);
+      });
+
+      ['compact', 'standard', 'large', 'xlarge'].forEach(sc => {
+        document.getElementById(`ls-${sc}`)?.classList.toggle('active', appState.layoutScale === sc);
+      });
+    }
+
+    function resetAllProgress() {
+      if (confirm("Are you sure you want to reset all notes, recycle bin, & settings?")) {
+        localStorage.removeItem('zennote_data_v2');
+        location.reload();
+      }
+    }
+
+    function setupKeyShortcuts() {
+      document.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+          e.preventDefault();
+          saveCurrentNote(true);
+        }
+        if (e.altKey && e.key.toLowerCase() === 'n') {
+          e.preventDefault();
+          openNewNote();
+        }
+        if (e.altKey && e.key.toLowerCase() === 'z') {
+          e.preventDefault();
+          toggleZenMode();
+        }
+      });
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, m => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[m]));
+    }
+  </script>
+</body>
+
+</html>
